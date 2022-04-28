@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    restart: always
+    networks:
+      - networkName
+
+  nodejs:
+    build: .
+    container_name: nodejs
+    image: nodejs
+    ports:
+      - "3000:3000"
+    links:
+      - mongodb
+    networks:
+      - networkName
+    depends_on:
+      - mongodb
+
+networks:
+  networkName:
+    driver: bridge
